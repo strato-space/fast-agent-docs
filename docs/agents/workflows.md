@@ -191,12 +191,12 @@ Common usage patterns may combine:
 @fast.agent(
     name="PMO-orchestrator",
     instruction=(
-        "Get reports. Always use one tool call per project/news. "
-        "Responsibilities: NY projects: [OpenAI, Fast-Agent, Anthropic]. London news: [Economics, Art, Culture]. "
+        "Get reports. Always use one tool call per project/news. "  # parallelization
+        "Responsibilities: NY projects: [OpenAI, Fast-Agent, Anthropic]. London news: [Economics, Art, Culture]. "  # routing
         "Aggregate results and add a one-line PMO summary."
     ),
     default=True,
-    agents=["NY-Project-Manager", "London-Project-Manager"],
+    agents=["NY-Project-Manager", "London-Project-Manager"],  # orchestrator-workers
 )
 async def main() -> None:
     async with fast.run() as agent:
@@ -307,7 +307,7 @@ async def main() -> None:
   instruction="instruction",
   agents=["agent1", "agent2"],  # exposed as tools: agent__agent1, agent__agent2
   history_mode="fork",          # scratch|fork|fork_and_merge
-  max_parallel=128, # OpenAI limitation
+  max_parallel=128,          # OpenAI tool-call limit (128)
   child_timeout_sec=600,
   max_display_instances=20,
 )
