@@ -35,11 +35,17 @@ mcp:
         redirect_port: 3030              # default 3030
         redirect_path: /callback         # default /callback
         # scope: "user"                  # optional (server defaults used if omitted)
+        # client_id: "..."               # optional pre-registered OAuth client ID
+        # client_secret: "..."           # optional (use when provider requires a secret)
+        # token_endpoint_auth_method: client_secret_post  # optional override
+        # client_metadata_url: "https://example.com/client.json"  # optional (CIMD)
 ```
 
 Notes:
 
 - Scope is omitted by default. If a server requires a specific scope, set `auth.scope` (string or list).
+- If a server blocks dynamic client registration (e.g. 403 on `/register`), provide a pre-registered
+  `auth.client_id` (+ optional `auth.client_secret`) to skip registration.
 - STDIO servers do not use OAuth and are hidden in auth views.
 
 ## Keychain Persistence
@@ -106,4 +112,3 @@ Notes:
 
 - STDIO not listed
   - Expected; STDIO transport does not use OAuth.
-
